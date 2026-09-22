@@ -1,12 +1,10 @@
 package com.cp.lab10.repository;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
+import com.cp.lab10.model.Product;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.cp.lab10.model.Product;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * ProductRepository — In-memory Reactive Repository
@@ -29,12 +27,42 @@ public class ProductRepository {
 
     // ── Constructor: ใส่ข้อมูลตัวอย่าง ──────────────────
     public ProductRepository() {
-        store.put("1", new Product("1", "iPhone 15 Pro (67XXXXXXXX-X SEC 1)",
-                "Electronics", "Apple", 50, 39900.0, "MEMBER"));
-        store.put("2", new Product("2", "MacBook Air M3",
-                "Electronics", "Apple", 20, 49900.0, "NONE"));
-        store.put("3", new Product("3", "Samsung Galaxy S24",
-                "Electronics", "Samsung", 30, 29900.0, "SEASONAL"));
+        store.put(
+            "1",
+            new Product(
+                "1",
+                "iPhone 15 Pro (67XXXXXXXX-X SEC 1)",
+                "Electronics",
+                "Apple",
+                50,
+                39900.0,
+                "MEMBER"
+            )
+        );
+        store.put(
+            "2",
+            new Product(
+                "2",
+                "MacBook Air M3",
+                "Electronics",
+                "Apple",
+                20,
+                49900.0,
+                "NONE"
+            )
+        );
+        store.put(
+            "3",
+            new Product(
+                "3",
+                "Samsung Galaxy S24",
+                "Electronics",
+                "Samsung",
+                30,
+                29900.0,
+                "SEASONAL"
+            )
+        );
     }
 
     // ── 1. หา Product 1 รายการ ───────────────────────────
@@ -48,7 +76,7 @@ public class ProductRepository {
      */
     public Mono<Product> findById(String id) {
         // TODO: เติม code ตรงนี้
-        return null; // ← แก้บรรทัดนี้
+        return Mono.justOrEmpty(store.get(id)); // ← แก้บรรทัดนี้
     }
 
     // ── 2. หา Product ทั้งหมด ────────────────────────────
@@ -60,7 +88,7 @@ public class ProductRepository {
      */
     public Flux<Product> findAll() {
         // TODO: เติม code ตรงนี้
-        return null; // ← แก้บรรทัดนี้
+        return Flux.fromIterable(store.values()); // ← แก้บรรทัดนี้
     }
 
     // ── 3. บันทึก Product ────────────────────────────────
@@ -72,7 +100,8 @@ public class ProductRepository {
      */
     public Mono<Product> save(Product product) {
         // TODO: เติม code ตรงนี้
-        return null; // ← แก้บรรทัดนี้
+        store.put(product.getId(), product);
+        return Mono.just(product); // ← แก้บรรทัดนี้
     }
 
     // ── 4. ลบ Product ────────────────────────────────────
@@ -84,7 +113,8 @@ public class ProductRepository {
      */
     public Mono<Void> deleteById(String id) {
         // TODO: เติม code ตรงนี้
-        return null; // ← แก้บรรทัดนี้
+        store.remove(id);
+        return Mono.empty(); // ← แก้บรรทัดนี้
     }
 
     // ── 5. กรองตาม category ──────────────────────────────
@@ -96,6 +126,8 @@ public class ProductRepository {
      */
     public Flux<Product> findByCategory(String category) {
         // TODO: เติม code ตรงนี้
-        return null; // ← แก้บรรทัดนี้
+        return findAll().filter(p ->
+            p.getCategory().equalsIgnoreCase(category)
+        ); // ← แก้บรรทัดนี้
     }
 }
