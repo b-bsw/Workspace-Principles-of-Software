@@ -31,7 +31,7 @@ public class ProductRepository {
             "1",
             new Product(
                 "1",
-                "iPhone 15 Pro (67XXXXXXXX-X SEC 1)",
+                "iPhone 15 Pro (673380065-6 SEC 2)",
                 "Electronics",
                 "Apple",
                 50,
